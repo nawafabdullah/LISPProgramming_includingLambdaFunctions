@@ -1,0 +1,73 @@
+(defvar *my-team* nil)
+(defvar *user-choice* Nil)
+(defvar terminate 'N)
+(defvar *user-choice* Nil)
+(defvar x 1)
+(defun WELCOME () 		
+
+	(format t "~% please make a choice  
+	    ~% 1. to ADD a member to the team 
+		~% 2. to DELETE a player from a team,
+		~% 3. to VIEW current team members 
+		~% 4. QUIT the program ~%")
+		(return-from WELCOME)
+		)
+		
+
+(defun ADD-TO-TEAM ()	
+	(defvar pname Nil)
+	(defvar pposition Nil)
+	(defvar confirmation Nil)
+	(defvar player-info Nil)
+	(print " what's the name of the player you want to add?")
+	(setq pname (read-line)) 
+	(print " what's the position of the player you want to add?")
+	(setq pposition (read-line))
+	(setq player-info (list :name pname :position pposition))
+	(format t " you have entered: ~{ ~a : ~a~} ~%" player-info)
+	(print "is this correct? Y N")
+	(setq confirmation (read)) 
+	(cond ((or(eq confirmation 'N)(eq confirmation 'NO))
+			(format t "TRY AGAIN ~% ")
+			(ADD-TO-TEAM))
+		  ((or(eq confirmation 'Y)(eq confirmation 'YES))
+			
+			(push player-info *my-team*)
+			(format t "SUCCESS! ~%The player has been added to the team ~%"))
+		  (t
+			(format t "unkown answer! we are going to ignore the transaction! 
+			         ~% ~% please try again ~%")
+			)))
+
+	
+(defun DISPLAY-TEAM ()
+	(setf x 1)
+	(cond ((not(eq *my-team* Nil))
+			(dolist (temp *my-team*)
+			(format t "~d ~{ ~a : ~a~} ~%" x temp)
+			(setf x (+ x 1))))
+		  (t(format t "There is nobody in the team currently ~%") (return-from DISPLAY-TEAM)))
+		
+)	
+
+	
+(format t "================================= Welcome ================================= 
+	    ~% This program will allow you to add players to a team, 
+		~% delete a player from a team,
+		~% and view the entire team ~% ~%")
+
+(loop 
+	(WELCOME)
+	(setq *user-choice* (read))
+	(case *user-choice* 
+		(1 (ADD-TO-TEAM))
+		(3 (DISPLAY-TEAM))
+		(4 (setq terminate 'Y)))
+	
+
+	
+	(when (eq terminate 'Y)
+		(print "thank you for using he program")
+	    (return)
+	)
+)
